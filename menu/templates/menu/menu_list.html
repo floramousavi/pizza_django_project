@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Menu | Pizza Take-Out{% endblock %}
+
+{% block content %}
+    <h2>Our Menu</h2>
+
+    <h3>Pizzas</h3>
+    {% if pizzas %}
+        <ul>
+            {% for pizza in pizzas %}
+                <li>
+                    <strong>{{ pizza.name }}</strong><br>
+                    {{ pizza.description }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No pizzas are available right now.</p>
+    {% endif %}
+
+    <h3>Drinks</h3>
+    {% if drinks %}
+        <ul>
+            {% for drink in drinks %}
+                <li>
+                    <strong>{{ drink.name }}</strong> ({{ drink.size }}) - {{ drink.price }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No drinks are available right now.</p>
+    {% endif %}
+{% endblock %}
