@@ -1,7 +1,8 @@
 from decimal import Decimal
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Order
 
 
@@ -17,13 +18,14 @@ def cart_view(request):
     cart_items = []
     total = Decimal("0.00")
 
-    for item in cart:
+    for index, item in enumerate(cart):
         quantity = int(item["quantity"])
         unit_price = Decimal(item["unit_price"])
         line_total = unit_price * quantity
         total += line_total
 
         cart_items.append({
+            "index": index,
             "pizza_name": item["pizza_name"],
             "pizza_size_name": item["pizza_size_name"],
             "toppings": item["toppings"],
@@ -37,3 +39,17 @@ def cart_view(request):
         "total": total,
     }
     return render(request, "orders/cart.html", context)
+
+
+def remove_from_cart(request, item_index):
+    cart = request.session.get("cart", [])
+
+    if request.method == "POST":
+        if 0 <= item_index < len(cart):
+            removed_item = cart.pop(item_index)
+            request.session["cart"] = cart
+            messages.success(request, f"{removed_item['pizza_name']} removed from cart.")
+        else:
+            messages.error(request, "Item not found in cart.")
+
+    return redirect("orders:cart")

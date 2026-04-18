@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -32,6 +34,9 @@ def pizza_detail(request, pizza_id):
             toppings = form.cleaned_data["toppings"]
             quantity = form.cleaned_data["quantity"]
 
+            topping_count = toppings.count()
+            unit_price = size.price + (size.topping_extra_price * topping_count)
+
             cart = request.session.get("cart", [])
 
             cart_item = {
@@ -42,14 +47,14 @@ def pizza_detail(request, pizza_id):
                 "pizza_size_name": size.name,
                 "quantity": quantity,
                 "toppings": [t.name for t in toppings],
-                "unit_price": str(size.price),
+                "unit_price": str(unit_price),
             }
 
             cart.append(cart_item)
             request.session["cart"] = cart
 
             messages.success(request, f"{pizza.name} added to cart.")
-            return redirect("menu:pizza_detail", pizza_id=pizza.id)
+            return redirect("orders:cart")
     else:
         form = AddPizzaToCartForm()
         form.fields["toppings"].queryset = pizza.allowed_toppings.filter(available=True)
