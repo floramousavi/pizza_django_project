@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders | Pizza Take-Out{% endblock %}
+
+{% block content %}
+    <h2>My Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div>
+                <h3>Order #{{ order.id }}</h3>
+                <p>Date: {{ order.created_at }}</p>
+                <p>Status: {{ order.status }}</p>
+                <p>Total: {{ order.total_price }}</p>
+
+                <h4>Items</h4>
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>
+                            {{ item.item_name_snapshot }} -
+                            Qty: {{ item.quantity }} -
+                            Price: {{ item.item_price_snapshot }}
+                        </li>
+                    {% empty %}
+                        <li>No items in this order.</li>
+                    {% endfor %}
+                </ul>
+                <hr>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not placed any orders yet.</p>
+    {% endif %}
+{% endblock %}
