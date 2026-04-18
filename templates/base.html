@@ -13,11 +13,26 @@
             <a href="{% url 'menu:menu_list' %}">Menu</a> |
             <a href="#">Cart</a> |
             <a href="#">Orders</a> |
-            <a href="#">Login</a> |
-            <a href="#">Register</a>
+
+            {% if user.is_authenticated %}
+                <span>Logged in as {{ user.username }}</span> |
+                <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a> |
+                <a href="{% url 'accounts:register' %}">Register</a>
+            {% endif %}
         </nav>
         <hr>
     </header>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 
     <main>
         {% block content %}
