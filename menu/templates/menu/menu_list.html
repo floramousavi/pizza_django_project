@@ -11,7 +11,8 @@
             {% for pizza in pizzas %}
                 <li>
                     <strong>{{ pizza.name }}</strong><br>
-                    {{ pizza.description }}
+                    {{ pizza.description }}<br>
+                    <a href="{% url 'menu:pizza_detail' pizza.id %}">Customize and add</a>
                 </li>
             {% endfor %}
         </ul>
