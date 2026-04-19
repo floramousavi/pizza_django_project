@@ -3,41 +3,38 @@
 {% block title %}Checkout | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>Checkout</h2>
+    <h2 class="mb-4">Checkout</h2>
 
-    <h3>Order summary</h3>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4>Order summary</h4>
 
-    <ul>
-        {% for item in cart_items %}
-            <li>
-                <strong>{{ item.name }}</strong><br>
-                Size: {{ item.size }}<br>
-                Quantity: {{ item.quantity }}<br>
+            {% for item in cart_items %}
+                <div class="border rounded p-3 mb-3">
+                    <h5>{{ item.name }}</h5>
+                    <p class="mb-1">Size: {{ item.size }}</p>
+                    <p class="mb-1">Quantity: {{ item.quantity }}</p>
 
-                {% if item.type == "pizza" %}
-                    {% if item.toppings %}
-                        Toppings:
+                    {% if item.type == "pizza" and item.toppings %}
+                        <p class="mb-1">Toppings:</p>
                         <ul>
                             {% for topping in item.toppings %}
                                 <li>{{ topping }}</li>
                             {% endfor %}
                         </ul>
-                    {% else %}
-                        <p>No extra toppings</p>
                     {% endif %}
-                {% endif %}
 
-                <p>Line total: {{ item.line_total }}</p>
-            </li>
-            <hr>
-        {% endfor %}
-    </ul>
+                    <p class="fw-bold mb-0">Line total: {{ item.line_total }}</p>
+                </div>
+            {% endfor %}
 
-    <h3>Total: {{ total }}</h3>
+            <h4 class="mt-4">Total: {{ total }}</h4>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Place order</button>
-    </form>
+            <form method="post" class="mt-3">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Place order</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

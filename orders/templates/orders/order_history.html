@@ -3,32 +3,31 @@
 {% block title %}My Orders | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>My Orders</h2>
+    <h2 class="mb-4">My Orders</h2>
 
     {% if orders %}
         {% for order in orders %}
-            <div>
-                <h3>Order #{{ order.id }}</h3>
-                <p>Date: {{ order.created_at }}</p>
-                <p>Status: {{ order.status }}</p>
-                <p>Total: {{ order.total_price }}</p>
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Order #{{ order.id }}</h4>
+                    <p class="mb-1">Date: {{ order.created_at }}</p>
+                    <p class="mb-1">Status: <span class="badge bg-secondary">{{ order.status }}</span></p>
+                    <p class="mb-3">Total: {{ order.total_price }}</p>
 
-                <h4>Items</h4>
-                <ul>
-                    {% for item in order.items.all %}
-                        <li>
-                            {{ item.item_name_snapshot }} -
-                            Qty: {{ item.quantity }} -
-                            Price: {{ item.item_price_snapshot }}
-                        </li>
-                    {% empty %}
-                        <li>No items in this order.</li>
-                    {% endfor %}
-                </ul>
-                <hr>
+                    <h5>Items</h5>
+                    <ul class="mb-0">
+                        {% for item in order.items.all %}
+                            <li>
+                                {{ item.item_name_snapshot }} - Qty: {{ item.quantity }} - Price: {{ item.item_price_snapshot }}
+                            </li>
+                        {% empty %}
+                            <li>No items in this order.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>You have not placed any orders yet.</p>
+        <div class="alert alert-secondary">You have not placed any orders yet.</div>
     {% endif %}
 {% endblock %}

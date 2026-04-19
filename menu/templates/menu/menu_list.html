@@ -3,38 +3,44 @@
 {% block title %}Menu | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>Our Menu</h2>
+    <h2 class="mb-4">Our Menu</h2>
 
-    <h3>Pizzas</h3>
-    {% if pizzas %}
-        <ul>
-            {% for pizza in pizzas %}
-                <li>
-                    <strong>{{ pizza.name }}</strong><br>
-                    {{ pizza.description }}<br>
-                    <a href="{% url 'menu:pizza_detail' pizza.id %}">Customize and add</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No pizzas are available right now.</p>
-    {% endif %}
+    <h3 class="mb-3">Pizzas</h3>
+    <div class="row">
+        {% for pizza in pizzas %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pizza.name }}</h5>
+                        <p class="card-text">{{ pizza.description }}</p>
+                        <a href="{% url 'menu:pizza_detail' pizza.id %}" class="btn btn-primary">Customize and add</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No pizzas are available right now.</p>
+        {% endfor %}
+    </div>
 
-    <h3>Drinks</h3>
-    {% if drinks %}
-        <ul>
-            {% for drink in drinks %}
-                <li>
-                    <strong>{{ drink.name }}</strong> ({{ drink.size }}) - {{ drink.price }}
+    <h3 class="mb-3 mt-4">Drinks</h3>
+    <div class="row">
+        {% for drink in drinks %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ drink.name }}</h5>
+                        <p class="card-text">Size: {{ drink.size }}</p>
+                        <p class="card-text">Price: {{ drink.price }}</p>
 
-                    <form method="post" action="{% url 'menu:add_drink_to_cart' drink.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Add drink</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No drinks are available right now.</p>
-    {% endif %}
+                        <form method="post" action="{% url 'menu:add_drink_to_cart' drink.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Add drink</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No drinks are available right now.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

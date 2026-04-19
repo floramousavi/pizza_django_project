@@ -3,47 +3,47 @@
 {% block title %}Cart | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>Your Cart</h2>
+    <h2 class="mb-4">Your Cart</h2>
 
     {% if cart_items %}
-        <ul>
-            {% for item in cart_items %}
-                <li>
-                    <strong>{{ item.name }}</strong><br>
-                    Size: {{ item.size }}<br>
-                    Quantity: {{ item.quantity }}<br>
-                    Unit price: {{ item.unit_price }}<br>
+        {% for item in cart_items %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text mb-1">Size: {{ item.size }}</p>
+                    <p class="card-text mb-1">Quantity: {{ item.quantity }}</p>
+                    <p class="card-text mb-1">Unit price: {{ item.unit_price }}</p>
 
                     {% if item.type == "pizza" %}
                         {% if item.toppings %}
-                            Toppings:
+                            <p class="card-text mb-1">Toppings:</p>
                             <ul>
                                 {% for topping in item.toppings %}
                                     <li>{{ topping }}</li>
                                 {% endfor %}
                             </ul>
                         {% else %}
-                            <p>No extra toppings</p>
+                            <p class="card-text">No extra toppings</p>
                         {% endif %}
                     {% endif %}
 
-                    <p>Line total: {{ item.line_total }}</p>
+                    <p class="fw-bold">Line total: {{ item.line_total }}</p>
 
                     <form method="post" action="{% url 'orders:remove_from_cart' item.index %}">
                         {% csrf_token %}
-                        <button type="submit">Remove</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                     </form>
-                </li>
-                <hr>
-            {% endfor %}
-        </ul>
+                </div>
+            </div>
+        {% endfor %}
 
-        <h3>Total: {{ total }}</h3>
-
-        <p>
-            <a href="{% url 'orders:checkout' %}">Proceed to checkout</a>
-        </p>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4>Total: {{ total }}</h4>
+                <a href="{% url 'orders:checkout' %}" class="btn btn-success">Proceed to checkout</a>
+            </div>
+        </div>
     {% else %}
-        <p>Your cart is empty.</p>
+        <div class="alert alert-secondary">Your cart is empty.</div>
     {% endif %}
 {% endblock %}

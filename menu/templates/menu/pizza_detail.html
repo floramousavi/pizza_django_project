@@ -3,16 +3,19 @@
 {% block title %}{{ pizza.name }} | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>{{ pizza.name }}</h2>
-    <p>{{ pizza.description }}</p>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">{{ pizza.name }}</h2>
+            <p class="card-text">{{ pizza.description }}</p>
 
-    <h3>Customize your pizza</h3>
+            <h4 class="mt-4">Customize your pizza</h4>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add to cart</button>
-    </form>
-
-    <p><a href="{% url 'menu:menu_list' %}">Back to menu</a></p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add to cart</button>
+                <a href="{% url 'menu:menu_list' %}" class="btn btn-secondary">Back to menu</a>
+            </form>
+        </div>
+    </div>
 {% endblock %}

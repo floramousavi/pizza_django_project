@@ -3,7 +3,13 @@
 {% block title %}Home | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2>Welcome to Pizza Take-Out</h2>
-    <p>This is the homepage of your pizza ordering website.</p>
-    <p>Later, this page will link to the menu, cart, login, and orders.</p>
+    <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+        <div class="container-fluid py-3">
+            <h1 class="display-5 fw-bold">Welcome to Pizza Take-Out</h1>
+            <p class="col-md-8 fs-5">
+                Order delicious pizzas and refreshing drinks online. Customize your pizza, manage your cart, and track your orders easily.
+            </p>
+            <a href="{% url 'menu:menu_list' %}" class="btn btn-primary btn-lg">View Menu</a>
+        </div>
+    </div>
 {% endblock %}
