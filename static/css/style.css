@@ -1,0 +1,40 @@
+body {
+    min-height: 100vh;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+h1, h2, h3, h4, h5 {
+    color: #212529;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+}
+
+.alert {
+    border-radius: 10px;
+}
+
+.order-status-pending {
+    background-color: #6c757d;
+}
+
+.order-status-preparing {
+    background-color: #fd7e14;
+}
+
+.order-status-completed {
+    background-color: #198754;
+}
