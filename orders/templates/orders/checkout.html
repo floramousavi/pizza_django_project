@@ -10,19 +10,21 @@
     <ul>
         {% for item in cart_items %}
             <li>
-                <strong>{{ item.pizza_name }}</strong><br>
-                Size: {{ item.pizza_size_name }}<br>
+                <strong>{{ item.name }}</strong><br>
+                Size: {{ item.size }}<br>
                 Quantity: {{ item.quantity }}<br>
 
-                {% if item.toppings %}
-                    Toppings:
-                    <ul>
-                        {% for topping in item.toppings %}
-                            <li>{{ topping }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No extra toppings</p>
+                {% if item.type == "pizza" %}
+                    {% if item.toppings %}
+                        Toppings:
+                        <ul>
+                            {% for topping in item.toppings %}
+                                <li>{{ topping }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No extra toppings</p>
+                    {% endif %}
                 {% endif %}
 
                 <p>Line total: {{ item.line_total }}</p>

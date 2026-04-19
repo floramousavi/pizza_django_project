@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Update Order Status | Pizza Take-Out{% endblock %}
+
+{% block content %}
+    <h2>Update Order #{{ order.id }}</h2>
+
+    <p>Customer: {{ order.user.username }}</p>
+    <p>Current status: {{ order.status }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save status</button>
+    </form>
+
+    <p>
+        <a href="{% url 'orders:staff_order_list' %}">Back to manage orders</a>
+    </p>
+{% endblock %}

@@ -26,3 +26,13 @@ class CheckoutForm(forms.Form):
         required=True,
         label="I confirm that I want to place this order"
     )
+
+class OrderStatusForm(forms.Form):
+    status = forms.ChoiceField(
+        choices=[
+            ("Pending", "Pending"),
+            ("Preparing", "Preparing"),
+            ("Completed", "Completed"),
+        ],
+        label="Order status"
+    )

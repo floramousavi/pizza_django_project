@@ -67,3 +67,26 @@ def pizza_detail(request, pizza_id):
             "form": form,
         },
     )
+
+
+def add_drink_to_cart(request, drink_id):
+    drink = get_object_or_404(Drink, id=drink_id, available=True)
+
+    if request.method == "POST":
+        cart = request.session.get("cart", [])
+
+        cart_item = {
+            "type": "drink",
+            "drink_id": drink.id,
+            "drink_name": drink.name,
+            "drink_size": drink.size,
+            "quantity": 1,
+            "unit_price": str(drink.price),
+        }
+
+        cart.append(cart_item)
+        request.session["cart"] = cart
+
+        messages.success(request, f"{drink.name} ({drink.size}) added to cart.")
+
+    return redirect("menu:menu_list")

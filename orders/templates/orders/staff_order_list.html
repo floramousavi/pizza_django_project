@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Orders | Pizza Take-Out{% endblock %}
+
+{% block content %}
+    <h2>Manage Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div>
+                <h3>Order #{{ order.id }}</h3>
+                <p>Customer: {{ order.user.username }}</p>
+                <p>Date: {{ order.created_at }}</p>
+                <p>Status: {{ order.status }}</p>
+                <p>Total: {{ order.total_price }}</p>
+
+                <h4>Items</h4>
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>
+                            {{ item.item_name_snapshot }} -
+                            Qty: {{ item.quantity }} -
+                            Price: {{ item.item_price_snapshot }}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <p>
+                    <a href="{% url 'orders:update_order_status' order.id %}">Update status</a>
+                </p>
+                <hr>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+{% endblock %}

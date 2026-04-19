@@ -26,6 +26,11 @@
             {% for drink in drinks %}
                 <li>
                     <strong>{{ drink.name }}</strong> ({{ drink.size }}) - {{ drink.price }}
+
+                    <form method="post" action="{% url 'menu:add_drink_to_cart' drink.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Add drink</button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>
