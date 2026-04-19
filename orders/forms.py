@@ -19,3 +19,10 @@ class AddPizzaToCartForm(forms.Form):
         initial=1,
         label="Quantity"
     )
+
+
+class CheckoutForm(forms.Form):
+    confirm_order = forms.BooleanField(
+        required=True,
+        label="I confirm that I want to place this order"
+    )

@@ -37,6 +37,10 @@
         </ul>
 
         <h3>Total: {{ total }}</h3>
+
+        <p>
+            <a href="{% url 'orders:checkout' %}">Proceed to checkout</a>
+        </p>
     {% else %}
         <p>Your cart is empty.</p>
     {% endif %}

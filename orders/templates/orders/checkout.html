@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout | Pizza Take-Out{% endblock %}
+
+{% block content %}
+    <h2>Checkout</h2>
+
+    <h3>Order summary</h3>
+
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                <strong>{{ item.pizza_name }}</strong><br>
+                Size: {{ item.pizza_size_name }}<br>
+                Quantity: {{ item.quantity }}<br>
+
+                {% if item.toppings %}
+                    Toppings:
+                    <ul>
+                        {% for topping in item.toppings %}
+                            <li>{{ topping }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No extra toppings</p>
+                {% endif %}
+
+                <p>Line total: {{ item.line_total }}</p>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+
+    <h3>Total: {{ total }}</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Place order</button>
+    </form>
+{% endblock %}
