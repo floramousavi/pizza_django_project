@@ -10,20 +10,27 @@
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
                     <h4 class="card-title">Order #{{ order.id }}</h4>
-                    <p class="mb-1">Date: {{ order.created_at }}</p>
-                    <p class="mb-1">Status: <span class="badge bg-secondary">{{ order.status }}</span></p>
-                    <p class="mb-3">Total: {{ order.total_price }}</p>
+                    <p class="meta-text mb-1">Date: {{ order.created_at }}</p>
 
-                    <h5>Items</h5>
-                    <ul class="mb-0">
-                        {% for item in order.items.all %}
-                            <li>
-                                {{ item.item_name_snapshot }} - Qty: {{ item.quantity }} - Price: {{ item.item_price_snapshot }}
-                            </li>
-                        {% empty %}
-                            <li>No items in this order.</li>
-                        {% endfor %}
-                    </ul>
+                    <p class="mb-2">
+                        Status:
+                        <span class="status-badge order-status-{{ order.status|lower }}">
+                            {{ order.status }}
+                        </span>
+                    </p>
+
+                    <p class="mb-3"><strong>Total:</strong> {{ order.total_price }}</p>
+
+                    <h5 class="section-title">Items</h5>
+                    {% for item in order.items.all %}
+                        <div class="item-box">
+                            <strong>{{ item.item_name_snapshot }}</strong><br>
+                            Quantity: {{ item.quantity }}<br>
+                            Price: {{ item.item_price_snapshot }}
+                        </div>
+                    {% empty %}
+                        <p>No items in this order.</p>
+                    {% endfor %}
                 </div>
             </div>
         {% endfor %}
