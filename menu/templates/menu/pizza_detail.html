@@ -13,9 +13,52 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+
+                <div class="mt-3">
+                    <p>Base price: <strong id="base-price">-</strong></p>
+                    <p>Topping extra: <strong id="topping-price">$0.00</strong></p>
+                    <p>Total: <strong id="total-price">-</strong></p>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Add to cart</button>
                 <a href="{% url 'menu:menu_list' %}" class="btn btn-secondary">Back to menu</a>
             </form>
         </div>
     </div>
+
+    <script>
+        const sizeData = {
+            {% for size in form.fields.pizza_size.queryset %}
+                "{{ size.id }}": {
+                    "price": {{ size.price }},
+                    "topping_extra": {{ size.topping_extra_price }}
+                },
+            {% endfor %}
+        };
+
+        function updatePrice() {
+            const sizeSelect = document.querySelector('[name="pizza_size"]');
+            const toppingCheckboxes = document.querySelectorAll('[name="toppings"]:checked');
+
+            const selectedSize = sizeData[sizeSelect.value];
+            if (!selectedSize) return;
+
+            const basePrice = selectedSize.price;
+            const toppingExtra = selectedSize.topping_extra * toppingCheckboxes.length;
+            const total = basePrice + toppingExtra;
+
+            document.getElementById("base-price").textContent = "$" + basePrice.toFixed(2);
+            document.getElementById("topping-price").textContent = "$" + toppingExtra.toFixed(2);
+            document.getElementById("total-price").textContent = "$" + total.toFixed(2);
+        }
+
+        document.querySelector('[name="pizza_size"]').addEventListener("change", updatePrice);
+        document.querySelectorAll('[name="toppings"]').forEach(cb => {
+            cb.addEventListener("change", updatePrice);
+        });
+    </script>
 {% endblock %}
+
+
+
+
