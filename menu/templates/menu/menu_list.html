@@ -1,46 +1,131 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Menu | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Our Menu</h2>
-
-    <h3 class="mb-3">Pizzas</h3>
-    <div class="row">
-        {% for pizza in pizzas %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ pizza.name }}</h5>
-                        <p class="card-text">{{ pizza.description }}</p>
-                        <a href="{% url 'menu:pizza_detail' pizza.id %}" class="btn btn-primary">Customize and add</a>
-                    </div>
-                </div>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section ftco-animate text-center">
+                <h2 class="mb-4">Hot Pizza Meals</h2>
+                <p>Browse our pizza selection, customize your order, and add drinks to complete your meal.</p>
             </div>
-        {% empty %}
-            <p>No pizzas are available right now.</p>
-        {% endfor %}
+        </div>
     </div>
 
-    <h3 class="mb-3 mt-4">Drinks</h3>
-    <div class="row">
-        {% for drink in drinks %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ drink.name }}</h5>
-                        <p class="card-text">Size: {{ drink.size }}</p>
-                        <p class="card-text">Price: {{ drink.price }}</p>
-
-                        <form method="post" action="{% url 'menu:add_drink_to_cart' drink.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success">Add drink</button>
-                        </form>
+    <div class="container-wrap">
+        <div class="row no-gutters d-flex">
+            {% for pizza in pizzas %}
+                <div class="col-lg-4 d-flex ftco-animate">
+                    <div class="services-wrap d-flex">
+                        <a href="{% url 'menu:pizza_detail' pizza.id %}"
+                           class="img"
+                           style="background-image: url('{% static 'pizza_template/images/pizza-1.jpg' %}');">
+                        </a>
+                        <div class="text p-4">
+                            <h3>{{ pizza.name }}</h3>
+                            <p>{{ pizza.description }}</p>
+                            <p class="price">
+                                <span>Choose size</span>
+                                <a href="{% url 'menu:pizza_detail' pizza.id %}" class="ml-2 btn btn-white btn-outline-white">
+                                    Order
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% empty %}
-            <p>No drinks are available right now.</p>
-        {% endfor %}
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No pizzas are available right now.</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Our Menu Pricing</h2>
+                <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+                <p class="mt-5">Below you can see the available drinks and pizza options currently offered in the system.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {% for pizza in pizzas %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                        <div class="pricing-entry d-flex ftco-animate">
+                            <div class="img" style="background-image: url('{% static 'pizza_template/images/pizza-1.jpg' %}');');"></div>
+                            <div class="desc pl-3">
+                                <div class="d-flex text align-items-center">
+                                    <h3><span>{{ pizza.name }}</span></h3>
+                                    <span class="price">See sizes</span>
+                                </div>
+                                <div class="d-block">
+                                    <p>{{ pizza.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6">
+                {% for pizza in pizzas %}
+                    {% if not forloop.counter0|divisibleby:2 %}
+                        <div class="pricing-entry d-flex ftco-animate">
+                            <div class="img" style="background-image: url('{% static 'pizza_template/images/pizza-2.jpg' %}');"></div>
+                            <div class="desc pl-3">
+                                <div class="d-flex text align-items-center">
+                                    <h3><span>{{ pizza.name }}</span></h3>
+                                    <span class="price">See sizes</span>
+                                </div>
+                                <div class="d-block">
+                                    <p>{{ pizza.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Drinks</h2>
+                <p>Add a drink to go with your pizza order.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for drink in drinks %}
+                <div class="col-md-6 col-lg-4 mb-4 ftco-animate">
+                    <div class="services-wrap d-flex">
+                        <a href="#"
+                           class="img"
+                           style="background-image: url('{% static 'pizza_template/images/drink-1.jpg' %}');">
+                        </a>
+                        <div class="text p-4">
+                            <h3>{{ drink.name }}</h3>
+                            <p>Size: {{ drink.size }}</p>
+                            <p class="price">
+                                <span>{{ drink.price }}</span>
+                            </p>
+                            <form method="post" action="{% url 'menu:add_drink_to_cart' drink.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="ml-2 btn btn-white btn-outline-white">Add drink</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No drinks are available right now.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}
