@@ -64,3 +64,18 @@ h1, h2, h3, h4, h5 {
     color: #6c757d;
     font-size: 0.95rem;
 }
+
+/* Fix white section headings on light backgrounds */
+.ftco-section .heading-section h2,
+.ftco-section .heading-section p,
+.ftco-section .heading-section .subheading,
+.ftco-section .heading-section.text-center h2,
+.ftco-section .heading-section.text-center p,
+.ftco-section .heading-section.ftco-animate h2,
+.ftco-section .heading-section.ftco-animate p {
+    color: #212529 !important;
+}
+
+.ftco-section .heading-section .flip span {
+    background: #212529 !important;
+}
