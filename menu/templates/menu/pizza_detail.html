@@ -12,9 +12,46 @@
 
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
 
-                <div class="mt-3">
+                <!-- Pizza Size -->
+                <div class="mb-3">
+                    <label><strong>Pizza size:</strong></label><br>
+                    {% for size in form.fields.pizza_size.queryset %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pizza_size" value="{{ size.id }}" id="size_{{ size.id }}">
+                            <label class="form-check-label" for="size_{{ size.id }}">
+                                {{ size.name }} - ${{ size.price }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Extra Toppings -->
+                <div class="mb-3">
+                    <label><strong>Extra toppings:</strong></label><br>
+                    {% for topping in form.fields.toppings.queryset %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="toppings" value="{{ topping.id }}" id="topping_{{ topping.id }}">
+                            <label class="form-check-label" for="topping_{{ topping.id }}">
+                                {{ topping.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Quantity -->
+                <div class="mb-3">
+                    <label><strong>Quantity:</strong></label><br>
+                    <div class="d-flex align-items-center" style="gap: 15px;">
+                        <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
+                        <span id="qty-display" style="min-width: 30px; text-align: center;">1</span>
+                        <input type="hidden" name="quantity" id="qty-input" value="1">
+                        <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
+                    </div>
+                </div>
+
+                <!-- Price Display -->
+                <div class="mt-3 mb-3">
                     <p>Base price: <strong id="base-price">-</strong></p>
                     <p>Topping extra: <strong id="topping-price">$0.00</strong></p>
                     <p>Total: <strong id="total-price">-</strong></p>
@@ -37,10 +74,11 @@
         };
 
         function updatePrice() {
-            const sizeSelect = document.querySelector('[name="pizza_size"]');
+            const sizeRadio = document.querySelector('[name="pizza_size"]:checked');
             const toppingCheckboxes = document.querySelectorAll('[name="toppings"]:checked');
 
-            const selectedSize = sizeData[sizeSelect.value];
+            if (!sizeRadio) return;
+            const selectedSize = sizeData[sizeRadio.value];
             if (!selectedSize) return;
 
             const basePrice = selectedSize.price;
@@ -52,13 +90,27 @@
             document.getElementById("total-price").textContent = "$" + total.toFixed(2);
         }
 
-        document.querySelector('[name="pizza_size"]').addEventListener("change", updatePrice);
+        document.querySelectorAll('[name="pizza_size"]').forEach(rb => {
+            rb.addEventListener("change", updatePrice);
+        });
+
         document.querySelectorAll('[name="toppings"]').forEach(cb => {
             cb.addEventListener("change", updatePrice);
         });
+
+        // quantity buttons
+        let qty = 1;
+        document.getElementById("qty-minus").addEventListener("click", () => {
+            if (qty > 1) {
+                qty--;
+                document.getElementById("qty-display").textContent = qty;
+                document.getElementById("qty-input").value = qty;
+            }
+        });
+        document.getElementById("qty-plus").addEventListener("click", () => {
+            qty++;
+            document.getElementById("qty-display").textContent = qty;
+            document.getElementById("qty-input").value = qty;
+        });
     </script>
 {% endblock %}
-
-
-
-
