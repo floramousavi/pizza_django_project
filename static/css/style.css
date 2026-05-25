@@ -274,3 +274,22 @@ body.site-bg .ftco-section .page-heading .flip span {
 .ftco-footer a {
     color: #ffffff !important;
 }
+
+/* Footer background */
+.custom-footer-bg {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.78)),
+        url("/static/pizza_template/images/bg_4.jpg") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    padding: 5rem 0 !important;
+}
+
+.custom-footer-bg,
+.custom-footer-bg *,
+.custom-footer-bg p,
+.custom-footer-bg h2,
+.custom-footer-bg a {
+    color: #ffffff !important;
+}
