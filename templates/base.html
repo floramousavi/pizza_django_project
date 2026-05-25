@@ -2,6 +2,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .navbar-account-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-left: 35px;
+            white-space: nowrap;
+        }
+
+        .navbar-account-area a,
+        .navbar-account-area span {
+            display: inline-block;
+        }
+
+        .navbar-account-area form {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .navbar-account-area .logout-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+            background: transparent;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .navbar-account-area .logout-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .navbar-auth-link {
+            margin-left: 8px;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-account-area {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
     <title>{% block title %}Pizza Take-Out{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,30 +79,57 @@
 <body class="bg-light">
       	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
             <div class="container">
-                  <a class="navbar-brand" href="index.html"><span class="flaticon-pizza-1 mr-1"></span>Pizza<br><small>Delicous</small></a>
+                  <a class="navbar-brand" href="{% url 'menu:home' %}"><span class="flaticon-pizza-1 mr-1"></span>Pizza<br><small>Delicous</small></a>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="oi oi-menu"></span> Menu
                   </button>
               <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item active"><a href="{% url 'menu:home' %}" class="nav-link">Home</a></li>
-                  <li class="nav-item"><a href="{% url 'menu:menu_list' %}" class="nav-link">Menu</a></li>
-                  <li class="nav-item"><a href="{% url 'orders:cart' %}" class="nav-link">Cart</a></li>
-                  <li class="nav-item"><a href="{% url 'orders:order_history' %}" class="nav-link">Order History</a></li>
-                    {% if user.is_authenticated and user.is_staff %}
-                        <a href="{% url 'orders:staff_order_list' %}">Manage Orders</a>
-                    {% endif %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                        <a href="{% url 'menu:home' %}" class="nav-link">Home</a>
+                    </li>
 
-                    {% if user.is_authenticated %}
-                        <span>{{ user.username }}</span>
-                        <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'accounts:login' %}">Login</a>
-                        <a href="{% url 'accounts:register' %}">Register</a>
-                    {% endif %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'menu_list' or request.resolver_match.url_name == 'pizza_detail' %}active{% endif %}">
+                        <a href="{% url 'menu:menu_list' %}" class="nav-link">Menu</a>
+                    </li>
+
+                    <li class="nav-item {% if request.resolver_match.url_name == 'cart' or request.resolver_match.url_name == 'checkout' %}active{% endif %}">
+                        <a href="{% url 'orders:cart' %}" class="nav-link">Cart</a>
+                    </li>
+
+                    <li class="nav-item {% if request.resolver_match.url_name == 'order_history' %}active{% endif %}">
+                        <a href="{% url 'orders:order_history' %}" class="nav-link">Order History</a>
+                    </li>
+                </ul>
+                    <div class="navbar-account-area">
+                        {% if user.is_authenticated and user.is_staff %}
+                        <a href="{% url 'orders:staff_order_list' %}"
+                           class="nav-link {% if request.resolver_match.url_name == 'staff_order_list' or request.resolver_match.url_name == 'update_order_status' %}active{% endif %}">
+                            Manage Orders
+                        </a>
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <span class="nav-link">
+                                {{ user.username }}
+                            </span>
+
+                            <form action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">
+                                    Logout
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="nav-link navbar-auth-link">
+                                Login
+                            </a>
+
+                            <a href="{% url 'accounts:register' %}" class="nav-link navbar-auth-link">
+                                Register
+                            </a>
+                        {% endif %}
+                    </div>
                 </ul>
               </div>
 		    </div>
