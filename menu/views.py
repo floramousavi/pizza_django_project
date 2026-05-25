@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from orders.forms import AddPizzaToCartForm
-from .models import Drink, Pizza
+from .models import Drink, Pizza, PizzaSize
 
 
 def home(request):
@@ -14,10 +14,14 @@ def home(request):
 def menu_list(request):
     pizzas = Pizza.objects.filter(available=True)
     drinks = Drink.objects.filter(available=True)
+    sizes = PizzaSize.objects.all().order_by("price")
+
+    lowest_price = sizes.first()
 
     context = {
         "pizzas": pizzas,
         "drinks": drinks,
+        "lowest_price": lowest_price,
     }
     return render(request, "menu/menu_list.html", context)
 
