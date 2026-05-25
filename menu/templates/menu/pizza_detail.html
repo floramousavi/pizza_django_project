@@ -1,116 +1,222 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ pizza.name }} | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title">{{ pizza.name }}</h2>
-            <p class="card-text">{{ pizza.description }}</p>
+<style>
+    .ftco-section .customize-heading,
+    .ftco-section .customize-heading * {
+        color: #212529 !important;
+    }
 
-            <h4 class="mt-4">Customize your pizza</h4>
+    .pizza-image-box {
+        min-height: 420px;
+        border-radius: 10px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
-            <form method="post">
-                {% csrf_token %}
+    .customize-box,
+    .customize-box * {
+        color: #212529 !important;
+    }
 
-                <!-- Pizza Size -->
-                <div class="mb-3">
-                    <label><strong>Pizza size:</strong></label><br>
-                    {% for size in form.fields.pizza_size.queryset %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="pizza_size" value="{{ size.id }}" id="size_{{ size.id }}">
-                            <label class="form-check-label" for="size_{{ size.id }}">
-                                {{ size.name }} - ${{ size.price }}
-                            </label>
+    .customize-box {
+        background: #ffffff;
+        border-radius: 10px;
+    }
+
+    .customize-box label {
+        font-weight: 600;
+    }
+
+    .customize-box .form-check {
+        margin-bottom: 8px;
+    }
+
+    .customize-box .form-check-input {
+        margin-right: 8px;
+    }
+
+    .price-summary {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 18px;
+        border: 1px solid #dee2e6;
+    }
+
+    .price-summary p {
+        margin-bottom: 8px;
+        font-size: 1rem;
+    }
+
+    .price-summary #total-price {
+        font-size: 1.3rem;
+        color: #c49b63 !important;
+    }
+
+    .customize-box .btn-primary,
+    .customize-box .btn-secondary,
+    .customize-box .btn-outline-secondary {
+        color: #ffffff !important;
+    }
+
+    .customize-box .btn-outline-secondary {
+        color: #212529 !important;
+        border-color: #6c757d;
+    }
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-8 customize-heading text-center ftco-animate">
+                <h2 class="mb-4">{{ pizza.name }}</h2>
+                <p>{{ pizza.description }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 ftco-animate">
+                <div class="pizza-image-box"
+                     style="background-image: url('{% static 'pizza_template/images/pizza-1.jpg' %}');">
+                </div>
+            </div>
+
+            <div class="col-md-6 ftco-animate">
+                <div class="customize-box p-4">
+                    <h3 class="mb-4">Customize your pizza</h3>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Pizza Size -->
+                        <div class="mb-4">
+                            <label class="mb-2"><strong>Pizza size:</strong></label>
+
+                            {% for size in form.fields.pizza_size.queryset %}
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="pizza_size"
+                                           value="{{ size.id }}"
+                                           id="size_{{ size.id }}">
+                                    <label class="form-check-label" for="size_{{ size.id }}">
+                                        {{ size.name }} - {{ size.price }}
+                                    </label>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
-                </div>
 
-                <!-- Extra Toppings -->
-                <div class="mb-3">
-                    <label><strong>Extra toppings:</strong></label><br>
-                    {% for topping in form.fields.toppings.queryset %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="toppings" value="{{ topping.id }}" id="topping_{{ topping.id }}">
-                            <label class="form-check-label" for="topping_{{ topping.id }}">
-                                {{ topping.name }}
-                            </label>
+                        <!-- Extra Toppings -->
+                        <div class="mb-4">
+                            <label class="mb-2"><strong>Extra toppings:</strong></label>
+
+                            {% for topping in form.fields.toppings.queryset %}
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="toppings"
+                                           value="{{ topping.id }}"
+                                           id="topping_{{ topping.id }}">
+                                    <label class="form-check-label" for="topping_{{ topping.id }}">
+                                        {{ topping.name }}
+                                    </label>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
-                </div>
 
-                <!-- Quantity -->
-                <div class="mb-3">
-                    <label><strong>Quantity:</strong></label><br>
-                    <div class="d-flex align-items-center" style="gap: 15px;">
-                        <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
-                        <span id="qty-display" style="min-width: 30px; text-align: center;">1</span>
-                        <input type="hidden" name="quantity" id="qty-input" value="1">
-                        <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
-                    </div>
-                </div>
+                        <!-- Quantity -->
+                        <div class="mb-4">
+                            <label class="mb-2"><strong>Quantity:</strong></label>
 
-                <!-- Price Display -->
-                <div class="mt-3 mb-3">
-                    <p>Base price: <strong id="base-price">-</strong></p>
-                    <p>Topping extra: <strong id="topping-price">$0.00</strong></p>
-                    <p>Total: <strong id="total-price">-</strong></p>
-                </div>
+                            <div class="d-flex align-items-center" style="gap: 15px;">
+                                <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
+                                <span id="qty-display" style="min-width: 30px; text-align: center;">1</span>
+                                <input type="hidden" name="quantity" id="qty-input" value="1">
+                                <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
+                            </div>
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Add to cart</button>
-                <a href="{% url 'menu:menu_list' %}" class="btn btn-secondary">Back to menu</a>
-            </form>
+                        <!-- Price Display -->
+                        <div class="price-summary mt-3 mb-4">
+                            <p>Base price: <strong id="base-price">-</strong></p>
+                            <p>Topping extra: <strong id="topping-price">0.00</strong></p>
+                            <p>Total: <strong id="total-price">-</strong></p>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary py-3 px-4">Add to cart</button>
+                        <a href="{% url 'menu:menu_list' %}" class="btn btn-secondary py-3 px-4">Back to menu</a>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <script>
-        const sizeData = {
-            {% for size in form.fields.pizza_size.queryset %}
-                "{{ size.id }}": {
-                    "price": {{ size.price }},
-                    "topping_extra": {{ size.topping_extra_price }}
-                },
-            {% endfor %}
-        };
+<script>
+    const sizeData = {
+        {% for size in form.fields.pizza_size.queryset %}
+            "{{ size.id }}": {
+                "price": parseFloat("{{ size.price }}"),
+                "topping_extra": parseFloat("{{ size.topping_extra_price }}")
+            },
+        {% endfor %}
+    };
 
-        function updatePrice() {
-            const sizeRadio = document.querySelector('[name="pizza_size"]:checked');
-            const toppingCheckboxes = document.querySelectorAll('[name="toppings"]:checked');
+    function updatePrice() {
+        const sizeRadio = document.querySelector('[name="pizza_size"]:checked');
+        const toppingCheckboxes = document.querySelectorAll('[name="toppings"]:checked');
+        const quantityInput = document.getElementById("qty-input");
 
-            if (!sizeRadio) return;
-            const selectedSize = sizeData[sizeRadio.value];
-            if (!selectedSize) return;
-
-            const basePrice = selectedSize.price;
-            const toppingExtra = selectedSize.topping_extra * toppingCheckboxes.length;
-            const total = basePrice + toppingExtra;
-
-            document.getElementById("base-price").textContent = "$" + basePrice.toFixed(2);
-            document.getElementById("topping-price").textContent = "$" + toppingExtra.toFixed(2);
-            document.getElementById("total-price").textContent = "$" + total.toFixed(2);
+        if (!sizeRadio) {
+            document.getElementById("base-price").textContent = "-";
+            document.getElementById("topping-price").textContent = "0.00";
+            document.getElementById("total-price").textContent = "-";
+            return;
         }
 
-        document.querySelectorAll('[name="pizza_size"]').forEach(rb => {
-            rb.addEventListener("change", updatePrice);
-        });
+        const selectedSize = sizeData[sizeRadio.value];
 
-        document.querySelectorAll('[name="toppings"]').forEach(cb => {
-            cb.addEventListener("change", updatePrice);
-        });
+        if (!selectedSize) return;
 
-        // quantity buttons
-        let qty = 1;
-        document.getElementById("qty-minus").addEventListener("click", () => {
-            if (qty > 1) {
-                qty--;
-                document.getElementById("qty-display").textContent = qty;
-                document.getElementById("qty-input").value = qty;
-            }
-        });
-        document.getElementById("qty-plus").addEventListener("click", () => {
-            qty++;
+        const quantity = parseInt(quantityInput.value);
+        const basePrice = selectedSize.price;
+        const toppingExtra = selectedSize.topping_extra * toppingCheckboxes.length;
+        const unitTotal = basePrice + toppingExtra;
+        const total = unitTotal * quantity;
+
+        document.getElementById("base-price").textContent = basePrice.toFixed(2);
+        document.getElementById("topping-price").textContent = toppingExtra.toFixed(2);
+        document.getElementById("total-price").textContent = total.toFixed(2);
+    }
+
+    document.querySelectorAll('[name="pizza_size"]').forEach(rb => {
+        rb.addEventListener("change", updatePrice);
+    });
+
+    document.querySelectorAll('[name="toppings"]').forEach(cb => {
+        cb.addEventListener("change", updatePrice);
+    });
+
+    let qty = 1;
+
+    document.getElementById("qty-minus").addEventListener("click", () => {
+        if (qty > 1) {
+            qty--;
             document.getElementById("qty-display").textContent = qty;
             document.getElementById("qty-input").value = qty;
-        });
-    </script>
+            updatePrice();
+        }
+    });
+
+    document.getElementById("qty-plus").addEventListener("click", () => {
+        qty++;
+        document.getElementById("qty-display").textContent = qty;
+        document.getElementById("qty-input").value = qty;
+        updatePrice();
+    });
+</script>
 {% endblock %}
