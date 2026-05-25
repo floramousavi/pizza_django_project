@@ -25,6 +25,15 @@ class Pizza(models.Model):
     available = models.BooleanField(default=True)
     allowed_toppings = models.ManyToManyField(Topping, blank=True, related_name="pizzas")
 
+    @property
+    def display_image_path(self):
+        if self.id:
+            image_number = ((self.id - 1) % 6) + 1
+        else:
+            image_number = 1
+
+        return f"pizza_template/images/pizza-{image_number}.jpg"
+
     def __str__(self):
         return self.name
 
