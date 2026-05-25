@@ -3,47 +3,94 @@
 {% block title %}Cart | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Your Cart</h2>
+<style>
+    .ftco-section .cart-heading,
+    .ftco-section .cart-heading * {
+        color: #212529 !important;
+    }
 
-    {% if cart_items %}
-        {% for item in cart_items %}
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
-                    <p class="card-text mb-1">Size: {{ item.size }}</p>
-                    <p class="card-text mb-1">Quantity: {{ item.quantity }}</p>
-                    <p class="card-text mb-1">Unit price: {{ item.unit_price }}</p>
+    .cart-box,
+    .cart-box * {
+        color: #212529 !important;
+    }
 
-                    {% if item.type == "pizza" %}
-                        {% if item.toppings %}
-                            <p class="card-text mb-1">Toppings:</p>
-                            <ul>
-                                {% for topping in item.toppings %}
-                                    <li>{{ topping }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="card-text">No extra toppings</p>
-                        {% endif %}
-                    {% endif %}
+    .cart-total-box,
+    .cart-total-box * {
+        color: #212529 !important;
+    }
 
-                    <p class="fw-bold">Line total: {{ item.line_total }}</p>
+    .cart-box .btn-danger {
+        color: #ffffff !important;
+    }
 
-                    <form method="post" action="{% url 'orders:remove_from_cart' item.index %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                    </form>
-                </div>
-            </div>
-        {% endfor %}
+    .cart-total-box .btn-success {
+        color: #ffffff !important;
+    }
+</style>
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h4>Total: {{ total }}</h4>
-                <a href="{% url 'orders:checkout' %}" class="btn btn-success">Proceed to checkout</a>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 cart-heading text-center ftco-animate">
+                <h2 class="mb-4">Your Cart</h2>
+                <p>Review your selected pizzas and drinks before moving to checkout.</p>
             </div>
         </div>
-    {% else %}
-        <div class="alert alert-secondary">Your cart is empty.</div>
-    {% endif %}
+
+        {% if cart_items %}
+            <div class="row">
+                <div class="col-md-8">
+                    {% for item in cart_items %}
+                        <div class="cart-box p-4 mb-4" style="background: #ffffff; border-radius: 10px;">
+                            <h3 class="mb-3">{{ item.name }}</h3>
+                            <p><strong>Size:</strong> {{ item.size }}</p>
+                            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+                            <p><strong>Unit price:</strong> {{ item.unit_price }}</p>
+
+                            {% if item.type == "pizza" %}
+                                {% if item.toppings %}
+                                    <p><strong>Toppings:</strong></p>
+                                    <ul>
+                                        {% for topping in item.toppings %}
+                                            <li>{{ topping }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p><strong>Toppings:</strong> No extra toppings</p>
+                                {% endif %}
+                            {% endif %}
+
+                            <p><strong>Line total:</strong> {{ item.line_total }}</p>
+
+                            <form method="post" action="{% url 'orders:remove_from_cart' item.index %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4">
+                    <div class="cart-total-box p-4" style="background: #ffffff; border-radius: 10px;">
+                        <h3 class="mb-4">Order Summary</h3>
+                        <p><strong>Total:</strong> {{ total }}</p>
+                        <a href="{% url 'orders:checkout' %}" class="btn btn-success py-3 px-4">
+                            Proceed to checkout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="cart-box p-4 text-center" style="background: #ffffff; border-radius: 10px;">
+                        <h3>Your cart is empty</h3>
+                        <p>Add some pizzas or drinks from the menu.</p>
+                        <a href="{% url 'menu:menu_list' %}" class="btn btn-primary py-3 px-4">Go to menu</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
