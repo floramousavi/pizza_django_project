@@ -3,38 +3,75 @@
 {% block title %}Checkout | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Checkout</h2>
+<style>
+    .ftco-section .checkout-heading,
+    .ftco-section .checkout-heading * {
+        color: #212529 !important;
+    }
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h4>Order summary</h4>
+    .checkout-box,
+    .checkout-box * {
+        color: #212529 !important;
+    }
 
-            {% for item in cart_items %}
-                <div class="border rounded p-3 mb-3">
-                    <h5>{{ item.name }}</h5>
-                    <p class="mb-1">Size: {{ item.size }}</p>
-                    <p class="mb-1">Quantity: {{ item.quantity }}</p>
+    .checkout-box .btn-primary {
+        color: #ffffff !important;
+    }
+</style>
 
-                    {% if item.type == "pizza" and item.toppings %}
-                        <p class="mb-1">Toppings:</p>
-                        <ul>
-                            {% for topping in item.toppings %}
-                                <li>{{ topping }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 checkout-heading text-center ftco-animate">
+                <h2 class="mb-4">Checkout</h2>
+                <p>Review your order details and confirm your purchase.</p>
+            </div>
+        </div>
 
-                    <p class="fw-bold mb-0">Line total: {{ item.line_total }}</p>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="checkout-box p-4 mb-4" style="background: #ffffff; border-radius: 10px;">
+                    <h3 class="mb-4">Order Summary</h3>
+
+                    {% for item in cart_items %}
+                        <div class="mb-4 pb-3" style="border-bottom: 1px solid #dee2e6;">
+                            <h4>{{ item.name }}</h4>
+                            <p><strong>Size:</strong> {{ item.size }}</p>
+                            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+
+                            {% if item.type == "pizza" %}
+                                {% if item.toppings %}
+                                    <p><strong>Toppings:</strong></p>
+                                    <ul>
+                                        {% for topping in item.toppings %}
+                                            <li>{{ topping }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p><strong>Toppings:</strong> No extra toppings</p>
+                                {% endif %}
+                            {% endif %}
+
+                            <p><strong>Line total:</strong> {{ item.line_total }}</p>
+                        </div>
+                    {% endfor %}
+
+                    <h3 class="mt-4">Total: {{ total }}</h3>
                 </div>
-            {% endfor %}
+            </div>
 
-            <h4 class="mt-4">Total: {{ total }}</h4>
+            <div class="col-md-4">
+                <div class="checkout-box p-4" style="background: #ffffff; border-radius: 10px;">
+                    <h3 class="mb-4">Confirm Order</h3>
 
-            <form method="post" class="mt-3">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Place order</button>
-            </form>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary py-3 px-4">Place order</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 {% endblock %}
