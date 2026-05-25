@@ -4,26 +4,16 @@
 
 {% block content %}
 <style>
-    .ftco-section .cart-heading,
-    .ftco-section .cart-heading * {
-        color: #212529 !important;
-    }
-
     .cart-box,
-    .cart-box * {
-        color: #212529 !important;
-    }
-
+    .cart-box *,
     .cart-total-box,
     .cart-total-box * {
         color: #212529 !important;
     }
 
-    .cart-box .btn-danger {
-        color: #ffffff !important;
-    }
-
-    .cart-total-box .btn-success {
+    .cart-box .btn-danger,
+    .cart-total-box .btn-success,
+    .cart-box .btn-primary {
         color: #ffffff !important;
     }
 </style>
@@ -31,7 +21,7 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
-            <div class="col-md-7 cart-heading text-center ftco-animate">
+            <div class="col-md-7 cart-heading text-center ftco-animate page-heading">
                 <h2 class="mb-4">Your Cart</h2>
                 <p>Review your selected pizzas and drinks before moving to checkout.</p>
             </div>

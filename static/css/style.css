@@ -1,34 +1,206 @@
+/* =========================
+   Base layout
+========================= */
+
+html,
+body {
+    min-height: 100%;
+}
+
 body {
     min-height: 100vh;
 }
+
+body.site-bg {
+    background-image: url("/static/pizza_template/images/bg_3.jpg") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-color: #000000 !important;
+}
+
+/* Dark overlay for inner content sections */
+body.site-bg .ftco-section {
+    background: rgba(0, 0, 0, 0.72) !important;
+}
+
+/* =========================
+   Navbar
+========================= */
 
 .navbar-brand {
     font-weight: 700;
     letter-spacing: 0.5px;
 }
 
-.card {
-    border-radius: 12px;
-}
+/* =========================
+   Buttons and cards
+========================= */
 
 .btn {
     border-radius: 8px;
 }
 
-h1, h2, h3, h4, h5 {
-    color: #212529;
+.card {
+    border-radius: 12px;
 }
 
 .card-title {
     margin-bottom: 0.75rem;
 }
 
+/* =========================
+   Homepage slider
+========================= */
+
+.home-slider,
+.home-slider .slider-item {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.home-slider .slider-item {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.home-slider .slider-text {
+    min-height: 100vh;
+}
+
+/* Keep homepage slider separate from inner-page dark overlay */
+body.site-bg .home-slider,
+body.site-bg .home-slider .slider-item {
+    background-color: transparent !important;
+}
+
+/* =========================
+   Global page headings
+   Used for page titles/subtitles
+========================= */
+
+body.site-bg .ftco-section .heading-section h1,
+body.site-bg .ftco-section .heading-section h2,
+body.site-bg .ftco-section .heading-section h3,
+body.site-bg .ftco-section .heading-section p,
+body.site-bg .ftco-section .heading-section .subheading,
+body.site-bg .ftco-section .page-heading,
+body.site-bg .ftco-section .page-heading * {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+body.site-bg .ftco-section .heading-section .flip span,
+body.site-bg .ftco-section .page-heading .flip span {
+    background: #ffffff !important;
+}
+
+/* =========================
+   White content boxes
+   These stay readable on dark backgrounds
+========================= */
+
+.customize-box,
+.cart-box,
+.cart-total-box,
+.checkout-box,
+.history-box,
+.staff-box,
+.auth-box {
+    background: #ffffff !important;
+    border-radius: 10px;
+}
+
+.customize-box,
+.customize-box *,
+.cart-box,
+.cart-box *,
+.cart-total-box,
+.cart-total-box *,
+.checkout-box,
+.checkout-box *,
+.history-box,
+.history-box *,
+.staff-box,
+.staff-box *,
+.auth-box,
+.auth-box * {
+    color: #212529 !important;
+}
+
+/* Buttons inside white boxes */
+.customize-box .btn-primary,
+.customize-box .btn-success,
+.customize-box .btn-danger,
+.customize-box .btn-secondary,
+.cart-box .btn-primary,
+.cart-box .btn-success,
+.cart-box .btn-danger,
+.cart-box .btn-secondary,
+.cart-total-box .btn-primary,
+.cart-total-box .btn-success,
+.cart-total-box .btn-danger,
+.cart-total-box .btn-secondary,
+.checkout-box .btn-primary,
+.checkout-box .btn-success,
+.checkout-box .btn-danger,
+.checkout-box .btn-secondary,
+.history-box .btn-primary,
+.history-box .btn-success,
+.history-box .btn-danger,
+.history-box .btn-secondary,
+.staff-box .btn-primary,
+.staff-box .btn-success,
+.staff-box .btn-danger,
+.staff-box .btn-secondary,
+.auth-box .btn-primary,
+.auth-box .btn-success,
+.auth-box .btn-danger,
+.auth-box .btn-secondary {
+    color: #ffffff !important;
+}
+
+/* Outline buttons inside white boxes */
+.customize-box .btn-outline-secondary,
+.cart-box .btn-outline-secondary,
+.checkout-box .btn-outline-secondary,
+.auth-box .btn-outline-secondary {
+    color: #212529 !important;
+}
+
+/* =========================
+   Forms
+========================= */
+
+.customize-box input,
+.customize-box select,
+.customize-box textarea,
+.auth-box input,
+.auth-box select,
+.auth-box textarea,
+.checkout-box input,
+.checkout-box select,
+.checkout-box textarea {
+    color: #212529 !important;
+    background-color: #ffffff !important;
+}
+
+/* =========================
+   Alerts
+========================= */
+
 .alert {
     border-radius: 10px;
 }
 
+/* =========================
+   Order status badges
+========================= */
+
 .status-badge {
-    color: white;
+    color: #ffffff !important;
     padding: 0.35rem 0.65rem;
     border-radius: 999px;
     font-size: 0.85rem;
@@ -48,12 +220,38 @@ h1, h2, h3, h4, h5 {
     background-color: #198754;
 }
 
+/* Status pills used in order/staff pages */
+.history-status,
+.staff-status {
+    color: #ffffff !important;
+}
+
+.history-status.pending,
+.staff-status.pending {
+    background-color: #6c757d;
+}
+
+.history-status.preparing,
+.staff-status.preparing {
+    background-color: #fd7e14;
+}
+
+.history-status.completed,
+.staff-status.completed {
+    background-color: #28a745;
+}
+
+/* =========================
+   Reusable item boxes
+========================= */
+
 .item-box {
     border: 1px solid #dee2e6;
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
-    background-color: white;
+    background-color: #ffffff;
+    color: #212529;
 }
 
 .section-title {
@@ -61,21 +259,18 @@ h1, h2, h3, h4, h5 {
 }
 
 .meta-text {
-    color: #6c757d;
+    color: #6c757d !important;
     font-size: 0.95rem;
 }
 
-/* Fix white section headings on light backgrounds */
-.ftco-section .heading-section h2,
-.ftco-section .heading-section p,
-.ftco-section .heading-section .subheading,
-.ftco-section .heading-section.text-center h2,
-.ftco-section .heading-section.text-center p,
-.ftco-section .heading-section.ftco-animate h2,
-.ftco-section .heading-section.ftco-animate p {
-    color: #212529 !important;
-}
+/* =========================
+   Footer
+========================= */
 
-.ftco-section .heading-section .flip span {
-    background: #212529 !important;
+.ftco-footer,
+.ftco-footer *,
+.ftco-footer p,
+.ftco-footer h2,
+.ftco-footer a {
+    color: #ffffff !important;
 }

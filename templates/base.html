@@ -75,9 +75,10 @@
     <link rel="stylesheet" href="{% static 'pizza_template/css/flaticon.css' %}">
     <link rel="stylesheet" href="{% static 'pizza_template/css/icomoon.css' %}">
     <link rel="stylesheet" href="{% static 'pizza_template/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="bg-light">
-      	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<body class="site-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
             <div class="container">
                   <a class="navbar-brand" href="{% url 'menu:home' %}"><span class="flaticon-pizza-1 mr-1"></span>Pizza<br><small>Delicous</small></a>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,18 +136,18 @@
 		    </div>
         </nav>
 
-    <div class="container my-4">
-        {% if messages %}
+    {% if messages %}
+        <div class="container mt-4">
             {% for message in messages %}
-                <div class="alert alert-info" role="alert">
+                <div class="alert alert-info">
                     {{ message }}
                 </div>
             {% endfor %}
-        {% endif %}
+        </div>
+    {% endif %}
 
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
 <footer class="ftco-footer ftco-section img">
     <div class="container">
         <div class="row justify-content-center">

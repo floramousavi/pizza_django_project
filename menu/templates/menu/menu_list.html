@@ -4,89 +4,76 @@
 {% block title %}Menu | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <style>
-    .ftco-section .heading-section,
-    .ftco-section .heading-section *,
-    .ftco-section .heading-section h2,
-    .ftco-section .heading-section p {
-        color: #212529 !important;
+   <style>
+    /* Menu page headings on dark/image background */
+    .menu-page-title,
+    .menu-page-title * {
+        color: #ffffff !important;
     }
 
-    .ftco-section .heading-section .flip span {
-        background: #212529 !important;
+    .menu-page-title .flip span {
+        background: #ffffff !important;
     }
 
-    /* Menu card text readability */
-    .services-wrap .text,
-    .services-wrap .text *,
+    /* Pizza and drink cards */
     .services-wrap .text h3,
     .services-wrap .text p,
-    .services-wrap .text .price,
-    .services-wrap .text .price span {
-        color: #212529 !important;
-        background-color: transparent !important;
-    }
-
-    /* Pricing list readability */
-    .pricing-entry,
-    .pricing-entry .desc,
-    .pricing-entry .desc *,
-    .pricing-entry .text,
-    .pricing-entry .text *,
-    .pricing-entry h3,
-    .pricing-entry h3 span,
-    .pricing-entry p,
-    .pricing-entry .price {
-        color: #212529 !important;
+    .services-wrap .price span {
+        color: #ffffff !important;
         background: transparent !important;
     }
 
-    /* Make the "From" prices darker and clearer */
-    .services-wrap .price span,
-    .pricing-entry .price {
-        color: #c49b63 !important;
-        font-weight: 700;
-    }
-
-    /* Keep the white outline buttons readable */
     .services-wrap .btn.btn-white,
-    .services-wrap .btn.btn-outline-white,
-    .services-wrap .btn.btn-white *,
-    .services-wrap .btn.btn-outline-white * {
+    .services-wrap .btn.btn-outline-white {
         color: #ffffff !important;
         background-color: transparent !important;
     }
-    /* Fix dotted line overlapping the price in pricing rows */
-.pricing-entry .d-flex.align-items-center {
-    gap: 12px;
-    flex-wrap: nowrap;
-}
 
-.pricing-entry .d-flex.align-items-center h3 {
-    margin-bottom: 0;
-    flex: 1 1 auto;
-    min-width: 0;
-}
+    /* Pricing list */
+    .pricing-entry h3 span,
+    .pricing-entry p {
+        color: #ffffff !important;
+        background: transparent !important;
+    }
 
-.pricing-entry .d-flex.align-items-center .price {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding-left: 12px;
-    background: #ffffff !important;
-    position: relative;
-    z-index: 2;
-}
-.services-wrap .img,
-.pricing-entry .img {
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-}
+    .pricing-entry .price {
+        color: #c49b63 !important;
+        background: transparent !important;
+        font-weight: 700;
+        padding-left: 16px;
+        white-space: nowrap;
+    }
+
+    .pricing-entry .d-flex.align-items-center {
+        gap: 16px;
+        flex-wrap: nowrap;
+    }
+
+    .pricing-entry .d-flex.align-items-center h3 {
+        margin-bottom: 0;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    /* Keep images visible */
+    .services-wrap .img,
+    .pricing-entry .img {
+        background-size: cover !important;
+        background-position: center center !important;
+        background-repeat: no-repeat !important;
+    }
+    /* Force menu section titles and descriptions to white */
+    .ftco-section .menu-page-title h2,
+    .ftco-section .menu-page-title p,
+    .ftco-section .menu-page-title,
+    .ftco-section .menu-page-title * {
+        color: #ffffff !important;
+    }
 </style>
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3">
-            <div class="col-md-7 heading-section ftco-animate text-center">
+            <div class="col-md-7 heading-section ftco-animate text-center menu-page-title">
                 <h2 class="mb-4">Hot Pizza Meals</h2>
                 <p>Browse our pizza selection, customize your order, and add drinks to complete your meal.</p>
             </div>
@@ -139,7 +126,7 @@
 
     <div class="container">
         <div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
-            <div class="col-md-7 heading-section text-center ftco-animate">
+            <div class="col-md-7 heading-section ftco-animate text-center menu-page-title">
                 <h2 class="mb-4">Our Menu Pricing</h2>
                 <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
                 <p class="mt-5">Below you can see the available drinks and pizza options currently offered in the system.</p>
@@ -214,7 +201,7 @@
         </div>
 
         <div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
-            <div class="col-md-7 heading-section text-center ftco-animate">
+            <div class="col-md-7 heading-section ftco-animate text-center menu-page-title">
                 <h2 class="mb-4">Drinks</h2>
                 <p>Add a drink to go with your pizza order.</p>
             </div>
