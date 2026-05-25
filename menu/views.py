@@ -28,6 +28,7 @@ def menu_list(request):
 
 def pizza_detail(request, pizza_id):
     pizza = get_object_or_404(Pizza, id=pizza_id, available=True)
+    drinks = Drink.objects.filter(available=True)  # added
 
     if request.method == "POST":
         form = AddPizzaToCartForm(request.POST)
@@ -69,6 +70,7 @@ def pizza_detail(request, pizza_id):
         {
             "pizza": pizza,
             "form": form,
+            "drinks": drinks,  # added
         },
     )
 
