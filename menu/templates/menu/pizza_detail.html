@@ -86,21 +86,31 @@
 
                     <form method="post">
                         {% csrf_token %}
-
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
                         <!-- Pizza Size -->
                         <div class="mb-4">
                             <label class="mb-2"><strong>Pizza size:</strong></label>
-
+                            {% if form.pizza_size.errors %}
+                                <div class="alert alert-danger py-2">
+                                    {{ form.pizza_size.errors }}
+                                </div>
+                            {% endif %}
                             {% for size in form.fields.pizza_size.queryset %}
                                 <div class="form-check">
                                     <input class="form-check-input"
                                            type="radio"
                                            name="pizza_size"
                                            value="{{ size.id }}"
-                                           id="size_{{ size.id }}">
-                                    <label class="form-check-label" for="size_{{ size.id }}">
-                                        {{ size.name }} - {{ size.price }}
-                                    </label>
+                                           id="size_{{ size.id }}"
+                                           required
+                                             {% if form.data.pizza_size == size.id|stringformat:"s" %}checked{% endif %}>
+                                            <label class="form-check-label" for="size_{{ size.id }}">
+                                                {{ size.name }} - {{ size.price }}
+                                            </label>
                                 </div>
                             {% endfor %}
                         </div>
