@@ -3,24 +3,51 @@
 {% block title %}Update Order Status | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title">Update Order #{{ order.id }}</h2>
+<style>
+    .ftco-section .update-heading,
+    .ftco-section .update-heading * {
+        color: #212529 !important;
+    }
 
-            <p class="meta-text mb-1">Customer: {{ order.user.username }}</p>
-            <p class="mb-3">
-                Current status:
-                <span class="status-badge order-status-{{ order.status|lower }}">
-                    {{ order.status }}
-                </span>
-            </p>
+    .update-box,
+    .update-box * {
+        color: #212529 !important;
+    }
 
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Save status</button>
-                <a href="{% url 'orders:staff_order_list' %}" class="btn btn-secondary">Back</a>
-            </form>
+    .update-box .btn-primary {
+        color: #ffffff !important;
+    }
+
+    .update-box .btn-secondary {
+        color: #ffffff !important;
+    }
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 update-heading text-center ftco-animate">
+                <h2 class="mb-4">Update Order Status</h2>
+                <p>Change the current status of this order.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="update-box p-4" style="background: #ffffff; border-radius: 10px;">
+                    <h3 class="mb-3">Order #{{ order.id }}</h3>
+                    <p><strong>Customer:</strong> {{ order.user.username }}</p>
+                    <p><strong>Current status:</strong> {{ order.status }}</p>
+
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary py-2 px-4">Save status</button>
+                        <a href="{% url 'orders:staff_order_list' %}" class="btn btn-secondary py-2 px-4">Back</a>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 {% endblock %}
