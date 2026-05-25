@@ -3,15 +3,79 @@
 {% block title %}Register | Pizza Take-Out{% endblock %}
 
 {% block content %}
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title mb-4">Create Account</h2>
+<style>
+    .ftco-section .auth-heading,
+    .ftco-section .auth-heading * {
+        color: #212529 !important;
+    }
 
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
+    .auth-box,
+    .auth-box * {
+        color: #212529 !important;
+    }
+
+    .auth-box .btn-primary {
+        color: #ffffff !important;
+    }
+
+    .auth-box a {
+        color: #c49b63 !important;
+    }
+
+    .auth-box input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        margin-bottom: 12px;
+    }
+
+    .auth-box label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .auth-box ul.errorlist {
+        color: #dc3545 !important;
+        padding-left: 18px;
+        margin-bottom: 10px;
+    }
+
+    .auth-box .helptext {
+        display: block;
+        font-size: 0.9rem;
+        color: #6c757d !important;
+        margin-top: -8px;
+        margin-bottom: 12px;
+    }
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 auth-heading text-center ftco-animate">
+                <h2 class="mb-4">Create Account</h2>
+                <p>Register to customize pizzas, place orders, and follow your order status.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="auth-box p-4" style="background: #ffffff; border-radius: 10px;">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary py-3 px-4">Register</button>
+                    </form>
+
+                    <p class="mt-4 mb-0">
+                        Already have an account?
+                        <a href="{% url 'accounts:login' %}">Login here</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 {% endblock %}
