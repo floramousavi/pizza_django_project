@@ -2,6 +2,8 @@
 
 A Django web application for a pizza take-out restaurant.
 
+Deployed on render.com from render-deployment-backup branch: https://pizza-django-project.onrender.com (Takes few seconds to load)
+
 ## Features
 - User registration, login, and logout
 - Pizza menu with customization by size and toppings
